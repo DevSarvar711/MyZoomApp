@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="uz">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Agora Video Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.23.2/index.min.js"></script>
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+
+    <!-- JavaScriptlar body oxirida -->
+    <script src="{% static 'js/streams.js' %}"></script>
+</body>
+</html>

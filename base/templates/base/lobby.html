@@ -1,0 +1,113 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <section id="form-container">
+
+        <img id="logo" src="{% static 'images/chat-icon.png' %}" />
+
+        <div id="welcome-message">
+            <h1>Welcome to MyChat</h1>
+            <p>A group video calling platform made just for you!</p>
+        </div>
+
+        <form id="form">
+            <div class="field-wrapper">
+
+                <div class="form-field">
+                    <label>Room:</label>
+                    <div style="display: flex; gap: 10px; align-items: center; position: relative;">
+                        <input id="room-input" name="room" placeholder="Enter a room name..." style="text-transform:uppercase; flex: 1;" />
+                        <button type="button" id="room-list-btn" style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Join</button>
+
+                        <!-- Roomlar ro'yxati -->
+                        <div id="room-list" style="display: none; position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ccc; width: 250px; max-height: 200px; overflow-y: auto; z-index: 1000; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+                            <!-- JavaScript orqali to'ldiriladi -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label>Name:</label>
+                    <input name="name" placeholder="Enter your name..." style="text-transform:uppercase" />
+                </div>
+
+                <div class="form-field">
+                    <input type="submit" value="Join Stream" />
+                </div>
+
+            </div>
+        </form>
+
+    </section>
+</main>
+
+<!-- Room listni contextdan olib JavaScript arrayga o'tkazamiz -->
+<script>
+    // Django contextdan olingan roomlar listi
+    const availableRooms = [
+        {% for room in room_list %}
+            "{{ room.room_name|escapejs }}",
+        {% endfor %}
+    ];
+
+    let form = document.getElementById('form')
+    let roomInput = document.getElementById('room-input')
+    let roomListBtn = document.getElementById('room-list-btn')
+    let roomList = document.getElementById('room-list')
+
+    // Room ro'yxatini hosil qilish
+    availableRooms.forEach(room => {
+        let roomItem = document.createElement('div')
+        roomItem.style.padding = '10px'
+        roomItem.style.cursor = 'pointer'
+        roomItem.innerText = room
+
+        roomItem.addEventListener('click', () => {
+            roomInput.value = room
+            roomList.style.display = 'none'
+        })
+
+        roomItem.addEventListener('mouseover', () => {
+            roomItem.style.backgroundColor = '#f0f0f0'
+        })
+        roomItem.addEventListener('mouseout', () => {
+            roomItem.style.backgroundColor = 'white'
+        })
+
+        roomList.appendChild(roomItem)
+    })
+
+    // Join button bosilganda ro'yxatni ko'rsatish/yashirish
+    roomListBtn.addEventListener('click', () => {
+        if (roomList.style.display === 'none') {
+            roomList.style.display = 'block'
+        } else {
+            roomList.style.display = 'none'
+        }
+    })
+
+    // Forma yuborilganda
+    let handleSubmit = async (e) => {
+        e.preventDefault()
+        let room = e.target.room.value.toUpperCase()
+        let name = e.target.name.value
+
+        let response = await fetch(`/get_token/?channel=${room}`)
+        let data = await response.json()
+
+        let UID = data.uid
+        let token = data.token
+
+        sessionStorage.setItem('UID', UID)
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('room', room)
+        sessionStorage.setItem('name', name)
+
+        window.open('/room/', '_self')
+    }
+    form.addEventListener('submit', handleSubmit)
+</script>
+
+{% endblock %}

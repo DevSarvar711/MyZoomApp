@@ -1,0 +1,138 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bosh Sahifa</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+            /* Asosiy Body uslubi */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4CAF50, #45A049);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Navbar - Category Container */
+        nav {
+            padding: 40px 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0 auto;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+        }
+
+        /* Har bir Category kartochkasi */
+        nav ul li {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        nav ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 30px 20px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #4CAF50;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #388E3C;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #ddd;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav ul {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+
+            nav ul li a {
+                font-size: 18px;
+                padding: 20px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul li a {
+                font-size: 16px;
+                padding: 15px 8px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bosh sahifaga xush kelibsiz!</h1>
+</header>
+
+<nav>
+    <ul>
+        {% for ctg in categories %}
+        <li><a href="{% url 'lobby_url' %}">{{ ctg.name }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
+
+
+<footer>
+    &copy; 2025 Barcha huquqlar himoyalangan.
+</footer>
+
+<script src="{% static 'assets/script.js' %}"></script>
+</body>
+</html>
+
+
+{% endblock %}
