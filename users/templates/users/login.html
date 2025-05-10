@@ -1,0 +1,49 @@
+{% extends 'users/auth.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/users/login.css' %}">
+
+    <div class="login-container">
+        <img src="{% static 'images/myvideochat-logo.png' %}" alt="VideoChat Logo" class="logo">
+
+        <h2 class="sign-in-title">Sign in</h2>
+
+
+        <form id="login-form" method="POST">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="input-group {% if field.errors %}error{% endif %}">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                        {% if field.name == "password" %}
+                            <a href="{% url 'users:password_reset' %}" class="forgot-link">Forgot Password?</a>
+                        {% endif %}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ field }}
+                    </div>
+                    {% for error in field.errors %}
+                        <small class="error-message">{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="login-btn">Sign in</button>
+
+            <p class="terms">
+                By signing in, you agree to the ShareBooks <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </p>
+
+            <p class="new-user">New to ShareBooks? <a href="{% url 'users:register' %}" class="signup-link">Sign up</a></p>
+        </form>
+
+        <footer class="login-footer">
+            <a href="#">Terms of Service</a> · <a href="#">Privacy</a> · <a href="#">Help</a>
+            <p>© 2025 ShareBooks</p>
+        </footer>
+    </div>
+
+    <script defer src="{% static 'js/users/login.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/users/profile/profile.css' %}">
+
+<div class="container py-5">
+    <div class="profile-edit-container shadow-lg bg-white rounded p-4">
+        <h2 class="text-center text-primary fw-bold">Edit Profile</h2>
+        <hr>
+
+        <form id="edit-profile-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+                <!-- Chap taraf: Profil rasmi -->
+                <div class="col-md-4 text-center">
+                    <label for="id_picture" class="profile-image-label">
+                        <img src="{{ user.picture.url }}" alt="Profile Picture" class="profile-edit-image">
+                    </label>
+                    <input type="file" id="id_picture" name="picture" class="form-control d-none">
+                    <p class="text-muted small mt-2">Click on image to change</p>
+                </div>
+
+                <!-- O'ng taraf: Profil ma'lumotlari -->
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="id_username" class="form-label fw-semibold">Username:</label>
+                            <input type="text" id="id_username" name="username" value="{{ user.username }}" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_email" class="form-label fw-semibold">Email:</label>
+                            <input type="email" id="id_email" name="email" value="{{ user.email }}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="id_birthday" class="form-label fw-semibold">Birthday:</label>
+                            <input type="date" id="id_birthday" name="birthday" value="{{ user.birthday|default_if_none:'' }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <label for="id_website" class="form-label fw-semibold mt-3">Website:</label>
+                    <input type="url" id="id_website" name="website" value="{{ user.website|default_if_none:'' }}" class="form-control">
+
+                    <label for="id_interest" class="form-label fw-semibold mt-3">Interest:</label>
+                    <input type="text" id="id_interest" name="interest" value="{{ user.interest|default_if_none:'' }}" class="form-control">
+
+                    <label for="id_bio" class="form-label fw-semibold mt-3">Bio:</label>
+                    <textarea id="id_bio" name="bio" rows="3" class="form-control">{{ user.bio|default_if_none:'' }}</textarea>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary fw-bold px-4">Save Changes</button>
+                <a href="{% url 'users:profile' username=user.username %}" class="btn btn-outline-secondary px-4">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/users/profile/profile.js' %}"></script>
+{% endblock %}

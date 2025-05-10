@@ -1,0 +1,44 @@
+{% extends 'users/auth.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/users/register.css' %}">
+
+    <div class="signup-container">
+        <img src="{% static 'images/myvideochat-logo.png' %}" alt="VideoChat Logo" class="logo">
+
+        <h2 class="create-title">Create Account</h2>
+
+        <form id="signup-form" method="POST">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="input-group {% if field.errors %}error{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <small class="error-message">{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="signup-btn">Create account</button>
+
+            <p class="terms">
+                By creating an account, you agree to the ShareBooks
+                <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </p>
+
+            <p class="already">
+                Already have an account? <a href="{% url 'users:login' %}">Sign in</a>
+            </p>
+        </form>
+
+        <footer class="signup-footer">
+            <a href="#">Terms of Service</a> · <a href="#">Privacy</a> · <a href="#">Help</a>
+            <p>© 2025 ShareBooks.</p>
+        </footer>
+    </div>
+
+    <script defer src="{% static 'js/users/register.js' %}"></script>
+{% endblock %}

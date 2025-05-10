@@ -14,6 +14,9 @@ def Home(request):
     return render(request, 'base.html', {"categories": categories})
 
 
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='users:login')
 def lobby(request):
     category_slug = request.GET.get('category')
     room_list = RoomMember.objects.all()
@@ -39,6 +42,9 @@ def getToken(request):
     appCertificate = '954a75c4330b4408a7280f31c8ad0939'
     channelName = request.GET.get('channel')
 
+    if not channelName:
+        return JsonResponse({'error': 'Channel name is required!'}, status=400)
+
     if 'uid' not in request.session:
         request.session['uid'] = random.randint(1, 999999)
     uid = request.session['uid']
@@ -52,21 +58,35 @@ def getToken(request):
     return JsonResponse({'token': token, 'uid': uid})
 
 
+
 @csrf_exempt
 def createMember(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
+            print("Received data:", data)
+
+            # Agar category null bo'lsa, default category o'rnatish
+            category = None
+            if data.get("category"):
+                category = Category.objects.get(id=data["category"])
+            else:
+                category = Category.objects.first()  # Default categoryni tanlash
+
             member, created = RoomMember.objects.get_or_create(
-                category_id=data["category"],
+                category=category,
                 name=data['name'],
                 uid=data['UID'],
                 room_name=data['room_name']
             )
             return JsonResponse({'name': member.name})
+        except Category.DoesNotExist:
+            return JsonResponse({'error': 'Category not found'}, status=404)
         except Exception as e:
+            print("Create member error:", e)
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'POST method required!'}, status=400)
+
 
 
 def getMember(request):

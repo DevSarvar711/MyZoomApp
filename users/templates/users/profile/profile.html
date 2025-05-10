@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/users/profile/profile.css' %}">
+
+<div class="container py-5">
+    <div class="profile-container shadow-lg bg-white rounded p-4">
+        <div class="row">
+            <!-- Chap taraf: Profil rasmi va username -->
+            <div class="col-md-4 text-center">
+                <div class="profile-image-container">
+                    <img src="{{ user_profile.picture.url }}" alt="Profile Picture" class="profile-image">
+                </div>
+                <h3 class="mt-3 fw-bold text-primary">{{ user_profile.get_full_name }}</h3>
+                <p class="text-muted">@{{ user_profile.username }}</p>
+
+                {% if user == user_profile %}
+                    <a href="{% url 'users:profile_edit' username=user_profile.username %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- O'ng taraf: Profil tafsilotlari -->
+            <div class="col-md-8">
+                <h4 class="fw-bold text-secondary">Profile Details</h4>
+                <hr>
+                <ul class="profile-details list-unstyled">
+                    <li><i class="fas fa-envelope"></i> <strong>Email:</strong> {{ user_profile.email }}</li>
+                    <li><i class="fas fa-birthday-cake"></i> <strong>Birthday:</strong> {{ user_profile.birthday|default:"Not specified" }}</li>
+                    <li><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> {{ user_profile.get_gender_display }}</li>
+                    <li><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ user_profile.location.get_full_location|default:"Not specified" }}</li>
+                    <li><i class="fas fa-globe"></i> <strong>Website:</strong>
+                        <a href="{{ user_profile.website }}" target="_blank">{{ user_profile.website |default:"Not specified" }}</a>
+                    </li>
+                    <li><i class="fas fa-book-reader"></i> <strong>Interest:</strong> {{ user_profile.interest |default:"Not specified" }}</li>
+                    <li><i class="fas fa-align-left"></i> <strong>Bio:</strong> {{ user_profile.bio|default:"No bio available" }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/users/profile/profile.js' %}"></script>
+{% endblock %}

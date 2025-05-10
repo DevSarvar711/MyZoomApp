@@ -81,7 +81,6 @@ let handleUserJoined = async (user, mediaType) => {
     }
 };
 
-// === Ekran ulashish ===
 let toggleScreenShare = async (e) => {
     const btn = e.target;
 
@@ -95,6 +94,7 @@ let toggleScreenShare = async (e) => {
             btn.classList.add('active');
         } catch (err) {
             console.error("Screen share error:", err);
+            alert("Ekran almashish uchun ruxsat berilmagan yoki xato yuz berdi.");
         }
     } else {
         await client.unpublish(screenTrack);
@@ -106,6 +106,7 @@ let toggleScreenShare = async (e) => {
         btn.classList.remove('active');
     }
 };
+
 
 // === Foydalanuvchi chiqib ketganda ===
 let handleUserLeft = async (user) => {
@@ -140,7 +141,7 @@ let toggleMic = async (e) => {
     e.target.style.backgroundColor = audioTrack.muted ? 'rgb(255, 80, 80, 1)' : '#fff';
 };
 
-// === Backend bilan bog‘lanish ===
+
 let createMember = async () => {
     try {
         let response = await fetch('/create_member/', {
@@ -153,11 +154,17 @@ let createMember = async () => {
                 'category': CATEGORY_ID
             })
         });
-        return await response.json();
+        const data = await response.json();
+        if (response.ok) {
+            return data;  // Success case
+        } else {
+            console.error("createMember error:", data.error);
+        }
     } catch (err) {
-        console.error("createMember error:", err);
+        console.error("createMember fetch error:", err);
     }
 };
+
 
 let getMember = async (user) => {
     try {

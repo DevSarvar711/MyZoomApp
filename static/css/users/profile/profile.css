@@ -1,0 +1,101 @@
+/* Umumiy profil konteyneri */
+.profile-container, .profile-edit-container {
+    max-width: 1000px;
+    margin: auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profil rasmi - doira shaklida */
+.profile-image, .profile-edit-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-image:hover, .profile-edit-image:hover {
+    transform: scale(1.1);
+}
+
+/* Profil rasmni tanlash - tahrirlash sahifasi */
+.profile-image-label {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.profile-edit-image {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Foydalanuvchi nomi */
+.profile-username {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Profil detallari */
+.profile-details p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile-details i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* Form styling */
+.form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+}
+
+/* Tugmalar */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #ccc;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+}
+
+.profile-edit-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.profile-edit-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    cursor: pointer;
+}
+
+.profile-image-label {
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
