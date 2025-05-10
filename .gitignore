@@ -1,0 +1,23 @@
+# Python keshlari
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual muhit
+venv/
+.venv/
+myvenv/
+
+# Maxfiy fayllar
+.env
+
+# IDE fayllari
+.vscode/
+.idea/
+
+# Log fayllari
+*.log
+
+# OS tomonidan yaratilgan ortiqcha fayllar
+.DS_Store
+Thumbs.db
